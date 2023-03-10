@@ -3,8 +3,8 @@ import json
 import discord
 from discord.ext import tasks
 
-from pong.database.pong_database import add_user_to_db, remove_user_from_db
-from pong.reddit.reddit_functions import find_plays_and_ping
+from database.pong_database import add_user_to_db, remove_user_from_db
+from reddit.reddit_functions import find_plays_and_ping
 
 '''
 This is the discord run file for the pong bot

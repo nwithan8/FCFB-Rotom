@@ -102,7 +102,7 @@ async def find_plays_and_ping(client, r):
         if "has submitted their number" in comment.body:
             team = parse_team_from_play_comment(comment)
             user = parse_user_from_play_comment(comment)
-            message = ("The " + team + " have submitted their number. Please reply to this comment with your number, "
+            message = (team + " has submitted their number. Please reply to this comment with your number, "
                        + "feel free to ignore this ping if you already have done so: "
                        + "https://www.old.reddit.com" + comment.permalink)
             if await ping_user(client, user, message):

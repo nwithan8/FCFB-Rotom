@@ -255,4 +255,3 @@ async def remove_user_from_db(r, message, prefix):
         print("Error removing user from database: " + str(e))
         db.close()
         return False
-    

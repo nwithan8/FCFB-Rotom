@@ -55,6 +55,7 @@ async def check_if_comment_processed(comment_id, submission_id):
     cursor = db.cursor()
     cursor.execute("SELECT * FROM processed_comments_tbl WHERE comment_id = ? AND submission_id = ?", (comment_id,submission_id))
     comment_in_db = cursor.fetchone()
+    db.close()
 
     if comment_in_db is None:
         return False
@@ -208,6 +209,7 @@ async def add_user_to_db(r, message, prefix):
     except Exception as e:
         await message.channel.send("Error adding user to database, please try again later")
         print("Error adding user to database: " + str(e))
+        db.close()
         return False
 
 
@@ -251,4 +253,6 @@ async def remove_user_from_db(r, message, prefix):
     except Exception as e:
         await message.channel.send("Error removing user from database, please try again later")
         print("Error removing user from database: " + str(e))
+        db.close()
         return False
+    

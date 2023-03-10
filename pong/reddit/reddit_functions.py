@@ -104,7 +104,7 @@ async def find_plays_and_ping(client, r):
             user = parse_user_from_play_comment(comment)
             message = (team + " has submitted their number. Please reply to this comment with your number, "
                        + "feel free to ignore this ping if you already have done so: "
-                       + "https://www.old.reddit.com" + comment.permalink)
+                       + "https://old.reddit.com" + comment.permalink)
             if await ping_user(client, user, message):
                 await mark_comment_processed(comment.id, submission_id)
         # Handle play result pings to the defense
@@ -114,6 +114,6 @@ async def find_plays_and_ping(client, r):
             message = ("The previous play result is in, the difference was " + difference +
                        ". Please respond to refbot's message with your number. You can view the result at the link "
                        + "below, feel free to ignore this ping if you already have done so: "
-                       + "https://www.old.reddit.com" + comment.permalink)
+                       + "https://old.reddit.com" + comment.permalink)
             if await ping_user(client, user, message):
                 await mark_comment_processed(comment.id, submission_id)

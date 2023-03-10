@@ -20,7 +20,7 @@ def run_discord(r):
     """
 
     cur_dir = str(pathlib.Path(__file__).parent.absolute().parent.absolute())
-    with open(cur_dir + '\configuration\config.json', 'r') as config_file:
+    with open(cur_dir + '/configuration/config.json', 'r') as config_file:
         config_data = json.load(config_file)
 
     token = config_data['discord_token']

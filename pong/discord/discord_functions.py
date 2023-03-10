@@ -15,7 +15,7 @@ async def ping_user(client, user, message_content):
     """
 
     cur_dir = str(pathlib.Path(__file__).parent.absolute().parent.absolute())
-    with open(cur_dir + '\configuration\config.json', 'r') as config_file:
+    with open(cur_dir + '/configuration/config.json', 'r') as config_file:
         config_data = json.load(config_file)
 
     # Check if the user is in the database

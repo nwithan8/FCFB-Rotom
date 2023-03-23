@@ -137,6 +137,7 @@ async def find_plays_and_ping(client, r):
                 user_list = parse_user_from_play_comment(comment)
             else:
                 user_list = parse_multiple_users_from_play_comment(comment)
+            print(user_list)
             message = (team + " has submitted their number. Please reply to this comment with your number, "
                        + "feel free to ignore this ping if you already have done so: "
                        + "https://old.reddit.com" + comment.permalink)
@@ -149,6 +150,7 @@ async def find_plays_and_ping(client, r):
                 user_list = parse_user_from_result_comment(comment)
             else:
                 user_list = parse_multiple_users_from_result_comment(comment)
+            print(user_list)
             difference = parse_difference_from_result_comment(comment)
             message = ("The previous play result is in, the difference was " + difference +
                        ". Please respond to refbot's message with your number. You can view the result at the link "

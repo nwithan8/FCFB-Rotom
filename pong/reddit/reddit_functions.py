@@ -26,8 +26,8 @@ def parse_multiple_users_from_play_comment(comment):
 
     # Get the users from the comment
     user_list = list(range(2))
-    user_list.insert(0, comment.body.split(" [](#datatag and ")[0].split("u/")[1])
-    user_list.insert(1, comment.body.split(" [](#datatag and ")[1].split("u/")[1])
+    user_list.insert(0, comment.body.split(" reply")[0].split(".\n")[1].split(" and ")[0].split("u/")[1])
+    user_list.insert(1, comment.body.split(" reply")[0].split(".\n")[1].split(" and ")[1].split("u/")[1])
     return user_list
 
 
@@ -136,7 +136,6 @@ async def find_plays_and_ping(client, r):
             if comment.body.count("/u/") == 1:
                 user_list = parse_user_from_play_comment(comment)
             else:
-                print(comment.body)
                 user_list = parse_multiple_users_from_play_comment(comment)
             message = (team + " has submitted their number. Please reply to this comment with your number, "
                        + "feel free to ignore this ping if you already have done so: "

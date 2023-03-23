@@ -133,6 +133,7 @@ async def find_plays_and_ping(client, r):
         # Handle play pings to the offense
         if "has submitted their number" in comment.body:
             team = parse_team_from_play_comment(comment)
+            print(comment.body.count("/u/"))
             if comment.body.count("/u/") == 1:
                 user_list = parse_user_from_play_comment(comment)
             else:

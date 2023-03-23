@@ -11,7 +11,7 @@ def parse_user_from_play_comment(comment):
     """
 
     # Get the user from the comment
-    user_list = list(range(2))
+    user_list = list(range(1))
     user_list.insert(0, comment.body.split(" reply")[0].split("u/")[1])
     return user_list
 
@@ -54,8 +54,8 @@ def parse_multiple_users_from_result_comment(comment):
 
     # Get the user from the comment
     user_list = list(range(2))
-    user_list.insert(0, comment.body.split(" [](#datatag and ")[0].split("u/")[1])
-    user_list.insert(1, comment.body.split(" [](#datatag and ")[1].split("u/")[1])
+    user_list.insert(0, comment.body.split(" [](#datatag")[0].split(" and /u/")[0].split("u/")[1])
+    user_list.insert(1, comment.body.split(" [](#datatag")[1].split(" and /u/")[1])
     return user_list
 
 
@@ -68,7 +68,7 @@ def parse_user_from_result_comment(comment):
     """
 
     # Get the user from the comment
-    user_list = list(range(2))
+    user_list = list(range(1))
     user_list.insert(0, comment.body.split(" [](#datatag")[0].split("u/")[1])
     return user_list
 

@@ -26,6 +26,10 @@ async def ping_user(client, user, message_content):
     else:
         print("User is signed up for pings, ping them")
         channel = client.get_channel(int(config_data['channel_id']))
-        user = await client.fetch_user(int(discord_id[0]))
+        try:
+            user = await client.fetch_user(int(discord_id[0]))
+        except:
+            return False
+        
         await channel.send(f"{user.mention} {message_content}")
         return True

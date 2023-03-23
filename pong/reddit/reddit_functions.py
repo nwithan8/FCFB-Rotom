@@ -52,7 +52,7 @@ def parse_multiple_users_from_result_comment(comment):
 
     # Get the user from the comment
     user_list = [comment.body.split(" [](#datatag")[0].split(" and /u/")[0].split("u/")[1],
-                 comment.body.split(" [](#datatag")[1].split(" and /u/")[1]]
+                 comment.body.split(" [](#datatag")[0].split(" and /u/")[1]]
     return user_list
 
 

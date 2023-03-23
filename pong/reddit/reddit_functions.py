@@ -133,10 +133,10 @@ async def find_plays_and_ping(client, r):
         # Handle play pings to the offense
         if "has submitted their number" in comment.body:
             team = parse_team_from_play_comment(comment)
-            print(comment.body.count("/u/"))
             if comment.body.count("/u/") == 1:
                 user_list = parse_user_from_play_comment(comment)
             else:
+                print(comment.body)
                 user_list = parse_multiple_users_from_play_comment(comment)
             message = (team + " has submitted their number. Please reply to this comment with your number, "
                        + "feel free to ignore this ping if you already have done so: "

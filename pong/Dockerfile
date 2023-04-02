@@ -1,5 +1,5 @@
 FROM python:3.10
-ADD ../requirements.txt /
+ADD requirements.txt /
 RUN apt-get install libmariadb3 libmariadb-dev
 RUN apt-get install -y default-libmysqlclient-dev
 RUN apt-get install -y libmariadb-dev-compat

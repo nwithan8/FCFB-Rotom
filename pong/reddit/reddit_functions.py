@@ -1,5 +1,5 @@
-from database.pong_database import mark_comment_processed, check_if_comment_processed
-from discord.discord_functions import ping_user
+from ..database.pong_database import mark_comment_processed, check_if_comment_processed
+from ..discord.discord_functions import ping_user
 
 
 def parse_user_from_play_comment(comment):

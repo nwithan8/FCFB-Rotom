@@ -2,7 +2,7 @@ import json
 import pathlib
 import mariadb
 import praw
-from prawcore.exceptions import NotFound
+from ..prawcore.exceptions import NotFound
 
 '''
 This is the database functions file for the pong bot

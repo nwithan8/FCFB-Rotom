@@ -4,7 +4,6 @@ FROM python:3.10
 RUN mkdir /project
 WORKDIR /project
 COPY ./requirements.txt ./
-COPY ./configuration/. /configuration/
 COPY ./pong/. /pong/
 
 # Install everything

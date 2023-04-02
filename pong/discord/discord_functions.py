@@ -1,7 +1,9 @@
 import json
 import pathlib
+import sys
+sys.path.append("..")
 
-from ..database.pong_database import get_player_discord_id
+from database.pong_database import get_player_discord_id
 
 
 async def ping_user(client, user, message_content):

@@ -28,11 +28,7 @@ def run_discord(r):
     token = config_data['discord_token']
     prefix = config_data['prefix']
 
-    intents = discord.Intents.default()
-    intents.message_content = True
-    intents.presences = True
-    intents.members = True
-    
+    intents = discord.Intents().all()
     client = discord.Client(intents=intents)
 
     @tasks.loop(seconds=10)

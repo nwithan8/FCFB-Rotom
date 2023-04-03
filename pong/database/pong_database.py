@@ -1,7 +1,6 @@
 import json
 import pathlib
 import mariadb
-import praw
 
 from prawcore.exceptions import NotFound
 

@@ -149,6 +149,22 @@ async def check_user_in_db(db, user_id):
     return user_in_db
 
 
+async def check_reddit_user_in_db(db, reddit_username):
+    """
+    Check if reddit user is in the database
+
+    :param db:
+    :param reddit_username:
+    :return:
+    """
+
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM user_tbl WHERE reddit_username = ?", (reddit_username,))
+    user_in_db = cursor.fetchone()
+
+    return user_in_db
+
+
 async def add_user_to_db(r, message, prefix):
     """
     Add a user to the database
@@ -233,7 +249,7 @@ async def remove_user_from_db(r, message, prefix):
     reddit_username = message.content.split(prefix + "delete ")[1]
 
     # Check if user exists in the database
-    user_in_db = await check_user_in_db(db, reddit_username)
+    user_in_db = await check_reddit_user_in_db(db, reddit_username)
     if user_in_db is None:
         await message.channel.send("The user you are trying to remove is not in the database, please verify the "
                                    + "username or alternatively they are already deleted!")

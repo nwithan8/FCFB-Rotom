@@ -261,7 +261,7 @@ async def add_user_to_db(r, message, prefix):
     # Add user to the database
     try:
         cursor = db.cursor()
-        cursor.execute("INSERT INTO user_tbl (user_id, discord_username, reddit_username, server) VALUES (?, ?, ?)",
+        cursor.execute("INSERT INTO user_tbl (user_id, discord_username, reddit_username, server) VALUES (?, ?, ?, ?)",
                        (user_id, discord_username, reddit_username, server_num))
         db.commit()
         db.close()
@@ -362,7 +362,7 @@ async def add_server_to_db(r, message, prefix):
         db.commit()
         db.close()
         await message.channel.send("User " + discord_username + " chose " + server.lower() + " for pings!")
-        print("User " + discord_username + " chose " + server.lower() + " for pings and added choice to the database!")
+        print("User " + discord_username + " chose " + server.lower() + " for pings and added to the database!")
         return True
     except Exception as e:
         await message.channel.send("Error adding server to ping user to database, please try again later")

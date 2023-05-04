@@ -53,7 +53,7 @@ def run_discord(r):
 
         if message_content.startswith(prefix + 'delete'):
             if not await remove_user_from_db(r, message, prefix):
-                print('Error adding user to database')
+                print('Error deleting user from database')
 
     @client.event
     async def on_ready():

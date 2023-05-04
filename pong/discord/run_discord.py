@@ -3,12 +3,10 @@ import json
 import discord
 import sys
 
-from pong.database.pong_database import add_server_to_db
-
 sys.path.append("..")
 
 from discord.ext import tasks
-from database.pong_database import add_user_to_db, remove_user_from_db
+from database.pong_database import add_user_to_db, add_server_to_db, remove_user_from_db
 from reddit.reddit_functions import find_plays_and_ping
 
 '''

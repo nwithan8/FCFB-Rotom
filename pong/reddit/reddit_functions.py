@@ -85,6 +85,27 @@ def parse_difference_from_result_comment(comment):
     return difference
 
 
+def parse_user_from_start_comment(comment):
+    """
+    Parse the coin flip user from the comment
+
+    :param comment:
+    :return:
+    """
+
+    return comment.body.split("you're home. /u/")[1].split(", you're away")[0]
+
+
+def parse_user_from_coin_flip_result_comment(comment):
+    """
+    Parse the coin flip winner from the comment
+
+    :param comment:
+    :return:
+    """
+
+    return comment.body.split("/u/")[1].split(", ")[0]
+
 async def check_if_latest_comment_in_thread_matches(comment, submission):
     """
     Check if the latest comment in the thread matches the comment
@@ -156,3 +177,19 @@ async def find_plays_and_ping(client, r):
             for user in user_list:
                 if await ping_user(client, user, message):
                     await mark_comment_processed(comment.id, submission_id)
+        # Handle start of game message, the coin flip
+        elif "The game has started" in comment.body:
+            user = parse_user_from_start_comment(comment)
+            message = ("The game has started, please respond to refbot's message with heads or tails. You can view the "
+                       + "result at the link below, feel free to ignore this ping if you already have done so: "
+                       + "https://old.reddit.com" + comment.permalink)
+            if await ping_user(client, user, message):
+                await mark_comment_processed(comment.id, submission_id)
+        # Handle coin flip result
+        elif "won the toss" in comment.body:
+            user = parse_user_from_coin_flip_result_comment(comment)
+            message = ("The coin flip result is in, you won the toss. Please respond to refbot's message with your "
+                        + "number. You can view the result at the link below, feel free to ignore this ping if you "
+                        + "already have done so: https://old.reddit.com" + comment.permalink)
+            if await ping_user(client, user, message):
+                await mark_comment_processed(comment.id, submission_id)

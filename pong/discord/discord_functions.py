@@ -35,6 +35,7 @@ async def ping_user(client, user, message_content):
                     user = await client.fetch_user(int(discord_id[0]))
                     await channel.send(f"{user.mention} {message_content}")
                 except:
+                    print("Error pinging user in main server")
                     continue
 
             elif server_name == "Fake FCS":
@@ -43,6 +44,7 @@ async def ping_user(client, user, message_content):
                     user = await client.fetch_user(int(discord_id[0]))
                     await channel.send(f"{user.mention} {message_content}")
                 except:
+                    print("Error pinging user in FCS server")
                     continue
 
         return True

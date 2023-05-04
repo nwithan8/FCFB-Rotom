@@ -244,7 +244,7 @@ async def add_user_to_db(r, message, prefix):
         return False
 
     server_num = 0
-    if server.lower() == "fbs" or server.lower() == "main":
+    if server.lower() == "main":
         server_num = 1
     elif server.lower() == "fcs":
         server_num = 2

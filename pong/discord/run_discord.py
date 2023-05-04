@@ -2,6 +2,9 @@ import pathlib
 import json
 import discord
 import sys
+
+from pong.database.pong_database import add_server_to_db
+
 sys.path.append("..")
 
 from discord.ext import tasks
@@ -41,6 +44,10 @@ def run_discord(r):
     @client.event
     async def on_message(message):
         message_content = message.content.lower()
+
+        if message_content.startswith(prefix + 'choose'):
+            if not await add_server_to_db(r, message, prefix):
+                print("Error adding server to ping in to database")
 
         if message_content.startswith(prefix + 'add'):
             if not await add_user_to_db(r, message, prefix):

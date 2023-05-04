@@ -133,6 +133,31 @@ async def get_player_discord_id(user):
         return discord_id
 
 
+async def get_player_server_to_ping(user):
+    """
+    Get the server to ping of a player via their reddit username
+
+    :param user:
+    :return:
+    """
+
+    # Connect to the database
+    db = await connect_to_db()
+    if db is None:
+        print("Error connecting to the database, please try again later")
+        return False
+
+    cursor = db.cursor()
+    cursor.execute("SELECT server FROM user_tbl WHERE reddit_username = ?", (user,))
+    server = cursor.fetchone()
+    db.close()
+
+    if server is None:
+        return 0
+    else:
+        return server
+
+
 async def check_user_in_db(db, user_id):
     """
     Check if user is in the database
@@ -186,7 +211,7 @@ async def add_user_to_db(r, message, prefix):
     discord_username = user.name + "#" + user.discriminator
     user_id = user.id
 
-    reddit_username = message.content.split(prefix + "add ")[1]
+    reddit_username = message.content.split(prefix + "add ")[1].split(",")[0]
 
     if "/u/" in reddit_username:
         await message.channel.send("Please do not include /u/ in your reddit username")
@@ -203,6 +228,28 @@ async def add_user_to_db(r, message, prefix):
         db.close()
         return False
 
+    try:
+        server = message.content.split(prefix + "add ")[1].split(",")[1].strip()
+
+        # Check if server is valid
+        if server.lower() != "fbs" or server.lower() != "fcs" or server.lower() != "main":
+            await message.channel.send("The server you are trying to choose is not valid! Please use fbs "
+                                       "(for the main server), fcs, or main")
+            print("User tried to choose an invalid server, " + server)
+            db.close()
+            return False
+    except Exception as e:
+        await message.channel.send("Error choosing server to ping user in, please try again later")
+        print("Error choosing server to ping user in: " + str(e))
+        db.close()
+        return False
+
+    server_num = 0
+    if server.lower() == "fbs" or server.lower() == "main":
+        server_num = 1
+    elif server.lower() == "fcs":
+        server_num = 2
+
     # Check if user is already in the database
     user_in_db = await check_user_in_db(db, user_id)
     if user_in_db is not None:
@@ -215,8 +262,8 @@ async def add_user_to_db(r, message, prefix):
     # Add user to the database
     try:
         cursor = db.cursor()
-        cursor.execute("INSERT INTO user_tbl (user_id, discord_username, reddit_username) VALUES (?, ?, ?)",
-                       (user_id, discord_username, reddit_username))
+        cursor.execute("INSERT INTO user_tbl (user_id, discord_username, reddit_username, server) VALUES (?, ?, ?)",
+                       (user_id, discord_username, reddit_username, server_num))
         db.commit()
         db.close()
         await message.channel.send("User " + reddit_username + " added to the database and is now signed up for pings!")
@@ -269,5 +316,58 @@ async def remove_user_from_db(r, message, prefix):
     except Exception as e:
         await message.channel.send("Error removing user from database, please try again later")
         print("Error removing user from database: " + str(e))
+        db.close()
+        return False
+
+
+async def add_server_to_db(r, message, prefix):
+    """
+    Add a server for users to get pinged in to the database
+
+    :param r:
+    :param prefix:
+    :param message:
+    :return:
+    """
+
+    # Connect to the database
+    db = await connect_to_db()
+    if db is None:
+        await message.channel.send("Error connecting to the database, please try again later")
+        return False
+
+    # Get user information
+    user = message.author
+    discord_username = user.name + "#" + user.discriminator
+    user_id = user.id
+
+    server = message.content.split(prefix + "choose ")[1]
+
+    # Check if server is valid
+    if server.lower() != "fbs" or server.lower() != "fcs" or server.lower() != "main":
+        await message.channel.send("The server you are trying to choose is not valid! Please use fbs "
+                                   "(for the main server), fcs, or main")
+        print("User tried to choose an invalid server, " + server)
+        db.close()
+        return False
+
+    server_num = 0
+    if server.lower() == "fbs" or server.lower() == "main":
+        server_num = 1
+    elif server.lower() == "fcs":
+        server_num = 2
+
+    # Add user to the database
+    try:
+        cursor = db.cursor()
+        cursor.execute("INSERT INTO user_tbl (server) VALUES (?, ?, ?)", server_num)
+        db.commit()
+        db.close()
+        await message.channel.send("User " + discord_username + " chose " + server.lower() + " for pings!")
+        print("User " + discord_username + " chose " + server.lower() + " for pings and added choice to the database!")
+        return True
+    except Exception as e:
+        await message.channel.send("Error adding server choice to database, please try again later")
+        print("Error adding server choice to database: " + str(e))
         db.close()
         return False

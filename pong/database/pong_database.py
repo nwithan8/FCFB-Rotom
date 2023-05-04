@@ -232,9 +232,8 @@ async def add_user_to_db(r, message, prefix):
         server = message.content.split(prefix + "add ")[1].split(",")[1].strip()
 
         # Check if server is valid
-        if server.lower() != "fbs" or server.lower() != "fcs" or server.lower() != "main":
-            await message.channel.send("The server you are trying to choose is not valid! Please use fbs "
-                                       "(for the main server), fcs, or main")
+        if server.lower() != "main" and server.lower() != "fcs":
+            await message.channel.send("The server you are trying to choose is not valid! Please use main or fcs")
             print("User tried to choose an invalid server, " + server)
             db.close()
             return False
@@ -344,15 +343,14 @@ async def add_server_to_db(r, message, prefix):
     server = message.content.split(prefix + "choose ")[1]
 
     # Check if server is valid
-    if server.lower() != "fbs" or server.lower() != "fcs" or server.lower() != "main":
-        await message.channel.send("The server you are trying to choose is not valid! Please use fbs "
-                                   "(for the main server), fcs, or main")
+    if server.lower() != "main" and server.lower() != "fcs":
+        await message.channel.send("The server you are trying to choose is not valid! Please use main or fcs")
         print("User tried to choose an invalid server, " + server)
         db.close()
         return False
 
     server_num = 0
-    if server.lower() == "fbs" or server.lower() == "main":
+    if server.lower() == "main":
         server_num = 1
     elif server.lower() == "fcs":
         server_num = 2

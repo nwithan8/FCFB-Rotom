@@ -358,14 +358,14 @@ async def add_server_to_db(r, message, prefix):
     # Add user to the database
     try:
         cursor = db.cursor()
-        cursor.execute("INSERT INTO user_tbl (server) VALUES (?, ?, ?)", server_num)
+        cursor.execute("INSERT INTO user_tbl (server) VALUES (?)", (server_num,))
         db.commit()
         db.close()
         await message.channel.send("User " + discord_username + " chose " + server.lower() + " for pings!")
         print("User " + discord_username + " chose " + server.lower() + " for pings and added choice to the database!")
         return True
     except Exception as e:
-        await message.channel.send("Error adding server choice to database, please try again later")
+        await message.channel.send("Error adding server to ping user to database, please try again later")
         print("Error adding server choice to database: " + str(e))
         db.close()
         return False

@@ -28,7 +28,11 @@ async def ping_user(client, user, message_content):
         return False
     else:
         print("User is signed up for pings, ping them")
-        server_to_ping = await get_player_server_to_ping(user)
+        server_to_ping = await get_player_server_to_ping(user)[0]
+        if not server_to_ping:
+            server_to_ping = 0
+        else:
+            server_to_ping = server_to_ping[0]
         for guild in client.guilds:
             server_name = guild.name
             if server_name == "Fake College Football" and (server_to_ping == 1 or server_to_ping == 0):

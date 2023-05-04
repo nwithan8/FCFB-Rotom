@@ -153,7 +153,7 @@ async def get_player_server_to_ping(user):
     db.close()
 
     if server is None:
-        return 0
+        return False
     else:
         return server
 

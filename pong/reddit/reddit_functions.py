@@ -178,7 +178,7 @@ async def find_plays_and_ping(client, r):
                 if await ping_user(client, user, message):
                     await mark_comment_processed(comment.id, submission_id)
         # Handle start of game message, the coin flip
-        elif "The game has started" in comment.body:
+        elif "Happy Gameday!" in comment.body:
             user = parse_user_from_start_comment(comment)
             message = ("The game has started, please respond to refbot's message with heads or tails. You can view the "
                        + "result at the link below, feel free to ignore this ping if you already have done so: "

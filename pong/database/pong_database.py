@@ -349,16 +349,16 @@ async def add_server_to_db(r, message, prefix):
         db.close()
         return False
 
-    server_num = 0
-    if server.lower() == "main":
-        server_num = 1
-    elif server.lower() == "fcs":
-        server_num = 2
-
     # Add user to the database
     try:
+        server_num = 0
+        if server.lower() == "main":
+            server_num = 1
+        elif server.lower() == "fcs":
+            server_num = 2
+
         cursor = db.cursor()
-        cursor.execute("INSERT INTO user_tbl (server) VALUES (?)", (server_num,))
+        cursor.execute("UPDATE user_tbl SET server = ? WHERE user_id = ?", (server_num,user_id))
         db.commit()
         db.close()
         await message.channel.send("User " + discord_username + " chose " + server.lower() + " for pings!")

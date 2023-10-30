@@ -5,3 +5,4 @@ from reddit.reddit_setup import reddit_setup
 if __name__ == '__main__':
     r = reddit_setup()
     run_discord(r)
+    

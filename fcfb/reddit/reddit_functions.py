@@ -1,8 +1,9 @@
 import sys
-sys.path.append("..")
 
-from database.pong_database import mark_comment_processed, check_if_comment_processed
-from discord.discord_functions import ping_user
+from fcfb.api.deoxys.processed_comments import get_processed_comment, add_processed_comment
+from fcfb.discord.utils import ping_user
+
+sys.path.append("..")
 
 
 def parse_user_from_play_comment(comment):
@@ -106,6 +107,7 @@ def parse_user_from_coin_flip_result_comment(comment):
 
     return comment.body.split("/u/")[1].split(", ")[0]
 
+
 async def check_if_latest_comment_in_thread_matches(comment, submission):
     """
     Check if the latest comment in the thread matches the comment
@@ -129,12 +131,13 @@ async def check_if_latest_comment_in_thread_matches(comment, submission):
         return False
 
 
-async def find_plays_and_ping(client, r):
+async def find_plays_and_ping(client, r, config_data):
     """
     Look for plays in game threads
 
     :param client:
     :param r:
+    :param config_data:
     :return:
     """
 
@@ -143,12 +146,9 @@ async def find_plays_and_ping(client, r):
     for comment in user.comments.new(limit=20):
         submission_id = comment.link_id.split("_")[1]
 
-        if await check_if_comment_processed(comment.id, submission_id):
+        # Filter out processed comments
+        if await get_processed_comment(config_data, comment.id) is not None:
             return
-
-        # Ignore situations when the comment is not the latest in the thread
-        # if not await check_if_latest_comment_in_thread_matches(comment, r.submission(id=comment.link_id.split("_")[1])):
-        #     return
 
         # Handle play pings to the offense
         if "has submitted their number" in comment.body:
@@ -161,8 +161,8 @@ async def find_plays_and_ping(client, r):
                        + "feel free to ignore this ping if you already have done so: "
                        + "https://old.reddit.com" + comment.permalink)
             for user in user_list:
-                if await ping_user(client, user, message):
-                    await mark_comment_processed(comment.id, submission_id)
+                if await ping_user(client, config_data, user, message):
+                    await add_processed_comment(config_data, comment.id, submission_id)
         # Handle play result pings to the defense
         elif "Difference" in comment.body:
             if comment.body.count("/u/") == 1:
@@ -175,21 +175,21 @@ async def find_plays_and_ping(client, r):
                        + "below, feel free to ignore this ping if you already have done so: "
                        + "https://old.reddit.com" + comment.permalink)
             for user in user_list:
-                if await ping_user(client, user, message):
-                    await mark_comment_processed(comment.id, submission_id)
+                if await ping_user(client, config_data, user, message):
+                    await add_processed_comment(config_data, comment.id, submission_id)
         # Handle start of game message, the coin flip
         elif "Happy Gameday!" in comment.body:
             user = parse_user_from_start_comment(comment)
             message = ("The game has started, please respond to refbot's message with heads or tails. You can view the "
                        + "result at the link below, feel free to ignore this ping if you already have done so: "
                        + "https://old.reddit.com" + comment.permalink)
-            if await ping_user(client, user, message):
-                await mark_comment_processed(comment.id, submission_id)
+            if await ping_user(client, config_data, user, message):
+                await add_processed_comment(config_data, comment.id, submission_id)
         # Handle coin flip result
         elif "won the toss" in comment.body:
             user = parse_user_from_coin_flip_result_comment(comment)
             message = ("The coin flip result is in, you won the toss. Please respond to refbot's message with your "
                         + "number. You can view the result at the link below, feel free to ignore this ping if you "
                         + "already have done so: https://old.reddit.com" + comment.permalink)
-            if await ping_user(client, user, message):
-                await mark_comment_processed(comment.id, submission_id)
+            if await ping_user(client, config_data, user, message):
+                await add_processed_comment(config_data, comment.id, submission_id)

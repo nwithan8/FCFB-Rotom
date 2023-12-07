@@ -1,13 +1,7 @@
 FROM python:3.10
 
 # Create directories and copy over
-RUN mkdir /fcfb
 WORKDIR /fcfb
-COPY ./requirements.txt ./
-COPY fcfb/. /fcfb/
-
-# Create __init__.py in the fcfb directory
-RUN touch /fcfb/__init__.py
 
 # Install everything
 RUN apt-get install libmariadb3 libmariadb-dev
@@ -19,7 +13,8 @@ RUN apt-get install -y libmariadb-dev
 COPY config.json /fcfb/configuration/
 
 # Install python dependencies
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Run
-CMD [ "python", "main/rotom.py" ]
+CMD [ "python", "fcfb/main/rotom.py" ]

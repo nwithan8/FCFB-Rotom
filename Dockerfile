@@ -6,6 +6,9 @@ WORKDIR /fcfb
 COPY ./requirements.txt ./
 COPY fcfb/. /fcfb/
 
+# Create __init__.py in the fcfb directory
+RUN touch /fcfb/__init__.py
+
 # Install everything
 RUN apt-get install libmariadb3 libmariadb-dev
 RUN apt-get install -y default-libmysqlclient-dev

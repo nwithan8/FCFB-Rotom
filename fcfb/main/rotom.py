@@ -1,8 +1,5 @@
-import sys
 from run_rotom import run_rotom
 from fcfb.reddit.reddit_setup import reddit_setup
-
-sys.path.append("..")
 
 # Main method
 if __name__ == '__main__':

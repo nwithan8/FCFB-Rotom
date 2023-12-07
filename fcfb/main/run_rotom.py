@@ -1,13 +1,10 @@
 import pathlib
 import json
 import discord
-import sys
 
 from discord.ext import tasks
 from fcfb.discord.commands import add_user_command, delete_me_command, delete_user_command
 from fcfb.reddit.reddit_functions import find_plays_and_ping
-
-sys.path.append("..")
 
 
 '''

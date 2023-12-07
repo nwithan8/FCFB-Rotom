@@ -2,6 +2,7 @@ FROM python:3.10
 
 # Create directories and copy over
 WORKDIR /fcfb
+COPY fcfb/ .
 
 # Install everything
 RUN apt-get install libmariadb3 libmariadb-dev

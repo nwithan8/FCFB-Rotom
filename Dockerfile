@@ -19,4 +19,4 @@ COPY config.json /fcfb/configuration/
 RUN pip install -r requirements.txt
 
 # Run
-CMD [ "python", "/fcfb/main/rotom.py" ]
+CMD [ "python", "fcfb/main/rotom.py" ]

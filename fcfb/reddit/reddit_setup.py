@@ -17,11 +17,11 @@ def reddit_setup():
     with open(cur_dir + '/configuration/config.json', 'r') as config_file:
         config_data = json.load(config_file)
 
-    r = praw.Reddit(user_agent=config_data['user_agent'],
-                    client_id=config_data['client_id'],
-                    client_secret=config_data['client_secret'],
-                    username=config_data['username'],
-                    password=config_data['password'],
-                    subreddit=config_data['subreddit'],
+    r = praw.Reddit(user_agent=config_data['reddit']['user_agent'],
+                    client_id=config_data['reddit']['client_id'],
+                    client_secret=config_data['reddit']['client_secret'],
+                    username=config_data['reddit']['username'],
+                    password=config_data['reddit']['password'],
+                    subreddit=config_data['reddit']['subreddit'],
                     check_for_async=False)
     return r

@@ -2,6 +2,7 @@ import sys
 from run_rotom import run_rotom
 from fcfb.reddit.reddit_setup import reddit_setup
 
+print("Current sys.path:", sys.path)
 sys.path.append("..")
 
 # Main method

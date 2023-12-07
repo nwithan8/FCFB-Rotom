@@ -51,7 +51,7 @@ async def add_user_command(r, config_data, message, prefix):
                                        f"tied to {discord_username}!")
             print("User added to the database, " + reddit_username)
             return
-    except Exception:
+    except Exception as e:
         raise Exception(f"There was an issue adding the user to the database: {e}")
 
 

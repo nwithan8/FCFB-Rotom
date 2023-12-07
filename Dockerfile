@@ -4,7 +4,7 @@ FROM python:3.10
 RUN mkdir /project
 WORKDIR /project
 COPY ./requirements.txt ./
-COPY fcfb/. /pong/
+COPY fcfb/. /ROTOM/
 
 # Install everything
 RUN apt-get install libmariadb3 libmariadb-dev
@@ -15,4 +15,4 @@ RUN pip install -r requirements.txt
 ADD fcfb/main/rotom.py /
 
 # Run
-CMD [ "python", "/pong/fcfb_pong.py" ]
+CMD [ "python", "/rotom/fcfb_rotom.py" ]

@@ -54,7 +54,7 @@ def run_rotom(r):
             elif message_content.startswith(prefix + 'delete'):
                 await delete_user_command(config_data, message)
         except Exception as e:
-            await message.channel.send(e)
+            await message.channel.send(f"{e}")
 
     @client.event
     async def on_ready():

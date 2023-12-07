@@ -23,8 +23,8 @@ async def ping_user(client, config_data, reddit_username, message_content):
     else:
         channel = client.get_channel(int(config_data['discord']['ping_channel_id']))
         try:
-            user = await client.fetch_user(int(user["discord_id"]))
+            user = await client.fetch_user(int(user["discordId"]))
             await channel.send(f"{user.mention} {message_content}")
-            return
+            return True
         except Exception as e:
             raise Exception(f"Error pinging user in server: {e}")

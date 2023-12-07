@@ -1,10 +1,9 @@
 import sys
 
-print("Current sys.path:", sys.path)
+sys.path.append("..")
 
 from run_rotom import run_rotom
 from fcfb.reddit.reddit_setup import reddit_setup
-
 
 # Main method
 if __name__ == '__main__':

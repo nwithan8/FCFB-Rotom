@@ -17,4 +17,4 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Run
-CMD [ "python", "fcfb/main/rotom.py" ]
+CMD [ "python", "main/rotom.py" ]

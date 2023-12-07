@@ -17,7 +17,5 @@ COPY config.json /project/fcfb/configuration/
 # Install python dependencies
 RUN pip install -r requirements.txt
 
-RUN ls -R /
-
 # Run
 CMD [ "python", "fcfb/main/rotom.py" ]

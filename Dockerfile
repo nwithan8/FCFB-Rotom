@@ -22,4 +22,4 @@ RUN pip install -r requirements.txt
 ADD fcfb/main/rotom.py /
 
 # Run
-CMD [ "python", "/fcfb/main/rotom.py" ]
+CMD [ "python", "fcfb/main/rotom.py" ]

@@ -4,7 +4,7 @@ FROM python:3.10
 RUN mkdir /project
 WORKDIR /project
 COPY ./requirements.txt ./
-COPY fcfb/. /ROTOM/
+COPY fcfb/. /fcfb/
 
 # Install everything
 RUN apt-get install libmariadb3 libmariadb-dev

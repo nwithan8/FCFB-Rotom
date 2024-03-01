@@ -159,7 +159,7 @@ async def find_plays_and_ping(client, r, config_data):
                 user_list = parse_multiple_users_from_play_comment(comment)
             message = (team + " has submitted their number. Please reply to this comment with your number, "
                        + "feel free to ignore this ping if you already have done so: "
-                       + "https://old.reddit.com" + comment.permalink)
+                       + "<https://old.reddit.com" + comment.permalink + ">")
             for user in user_list:
                 if await ping_user(client, config_data, user, message):
                     await add_processed_comment(config_data, comment.id, submission_id)
@@ -173,7 +173,7 @@ async def find_plays_and_ping(client, r, config_data):
             message = ("The previous play result is in, the difference was " + difference +
                        ". Please respond to refbot's message with your number. You can view the result at the link "
                        + "below, feel free to ignore this ping if you already have done so: "
-                       + "https://old.reddit.com" + comment.permalink)
+                       + "<https://old.reddit.com" + comment.permalink + ">")
             for user in user_list:
                 if await ping_user(client, config_data, user, message):
                     await add_processed_comment(config_data, comment.id, submission_id)
@@ -182,7 +182,7 @@ async def find_plays_and_ping(client, r, config_data):
             user = parse_user_from_start_comment(comment)
             message = ("The game has started, please respond to refbot's message with heads or tails. You can view the "
                        + "result at the link below, feel free to ignore this ping if you already have done so: "
-                       + "https://old.reddit.com" + comment.permalink)
+                       + "<https://old.reddit.com" + comment.permalink + ">")
             if await ping_user(client, config_data, user, message):
                 await add_processed_comment(config_data, comment.id, submission_id)
         # Handle coin flip result

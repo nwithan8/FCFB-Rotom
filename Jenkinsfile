@@ -62,24 +62,24 @@ pipeline {
                 echo 'Creating the config.json file...'
                 script {
                     def propertiesContent = """
-                        {
-                            "reddit": {
-                                "user_agent": "Rotom Bot ${env.VERSION} by /u/pm_me_cute_sloths_",
-                                "client_id": "${env.REDDIT_CLIENT_ID}",
-                                "client_secret": "${env.REDDIT_CLIENT_SECRET}",
-                                "username": "${env.REDDIT_USERNAME}",
-                                "password": "${env.REDDIT_PASSWORD}",
-                                "subreddit": "FakeCollegeFootball"
-                            },
-                            "discord": {
-                                "token": "${env.DISCORD_TOKEN}",
-                                "ping_channel_id": ${env.PING_CHANNEL_ID},
-                                "prefix": "!"
-                            },
-                            "api": {
-                                "url": "${env.API_URL}"
-                            }
+                    {
+                        "reddit": {
+                            "user_agent": "Rotom Bot ${env.VERSION} by /u/pm_me_cute_sloths_",
+                            "client_id": "${env.REDDIT_CLIENT_ID}",
+                            "client_secret": "${env.REDDIT_CLIENT_SECRET}",
+                            "username": "${env.REDDIT_USERNAME}",
+                            "password": "${env.REDDIT_PASSWORD}",
+                            "subreddit": "FakeCollegeFootball"
+                        },
+                        "discord": {
+                            "token": "${env.DISCORD_TOKEN}",
+                            "ping_channel_id": "${env.PING_CHANNEL_ID}",  // Quote numeric values as well
+                            "prefix": "!"
+                        },
+                        "api": {
+                            "url": "${env.API_URL}"
                         }
+                    }
                     """.stripIndent()
 
                     writeFile file: "${env.CONFIG_JSON}", text: propertiesContent

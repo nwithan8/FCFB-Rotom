@@ -106,7 +106,7 @@ pipeline {
                     echo 'Starting the new Rotom container...'
                     sh """
                         docker run -d --restart=always --name ${CONTAINER_NAME} \\
-                            --env-file ${APP_PROPERTIES} \\
+                            --env-file ${CONFIG_JSON} \\
                             ${IMAGE_NAME}:${DOCKERFILE}
                     """
                 }

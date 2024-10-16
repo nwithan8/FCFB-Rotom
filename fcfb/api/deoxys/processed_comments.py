@@ -15,6 +15,7 @@ async def get_processed_comment(config_data, comment_id):
     try:
         payload = f"comment_id/{comment_id}"
         endpoint = config_data['api']['url'] + PROCESSED_COMMENTS_PATH + payload
+        print("ENDPOINT: " + endpoint)
         response = requests.get(endpoint)
 
         if response.status_code == 200 or response.status_code == 201:

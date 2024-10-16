@@ -36,7 +36,6 @@ def run_rotom(r):
     intents.members = True
     intents.presences = True
     client = discord.Client(intents=intents)
-    print("CONFIG DATA: " + str(config_data))
 
     @tasks.loop(seconds=10)
     async def reddit_browser():

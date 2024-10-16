@@ -25,21 +25,12 @@ pipeline {
         stage('Get Version') {
             steps {
                 script {
-                    // Get the latest Git tag
                     def latestTag = sh(script: "git describe --tags --abbrev=0", returnStdout: true).trim()
-
-                    // If there are no tags, default to 1.0.0
                     if (!latestTag) {
                         latestTag = '1.0.0'
                     }
-
-                    // Print the version
                     echo "Current Version: ${latestTag}"
-
-                    // Set the version to an environment variable for use in later stages
                     env.VERSION = latestTag
-
-                    // Set the build description
                     currentBuild.description = "Version: ${env.VERSION}"
                     currentBuild.displayName = "Build #${env.BUILD_NUMBER} - Version: ${env.VERSION}"
                 }
@@ -48,7 +39,7 @@ pipeline {
         stage('Stop and Remove Existing Bot') {
             steps {
                 script {
-                    echo 'Stopping and removing the existing Arceus instance...'
+                    echo 'Stopping and removing the existing Rotom instance...'
                     sh """
                         docker stop ${CONTAINER_NAME} || echo "Rotom is not running."
                         docker rm ${CONTAINER_NAME} || echo "No old Rotom instance to remove."
@@ -73,7 +64,7 @@ pipeline {
                         },
                         "discord": {
                             "token": "${env.DISCORD_TOKEN}",
-                            "ping_channel_id": "${env.PING_CHANNEL_ID}",  // Quote numeric values as well
+                            "ping_channel_id": "${env.PING_CHANNEL_ID}",
                             "prefix": "!"
                         },
                         "api": {
@@ -84,8 +75,6 @@ pipeline {
 
                     writeFile file: "${env.CONFIG_JSON}", text: propertiesContent
                 }
-
-                echo 'Building the Rotom project...'
             }
         }
 
@@ -94,7 +83,7 @@ pipeline {
                 script {
                     echo 'Building the new Rotom Docker image...'
                     sh """
-                        docker build -t ${IMAGE_NAME}:${DOCKERFILE} .
+                        docker build -t ${IMAGE_NAME}:${env.VERSION} -f ${DOCKERFILE} .
                     """
                 }
             }
@@ -106,8 +95,8 @@ pipeline {
                     echo 'Starting the new Rotom container...'
                     sh """
                         docker run -d --restart=always --name ${CONTAINER_NAME} \\
-                            --env-file ${CONFIG_JSON} \\
-                            ${IMAGE_NAME}:${DOCKERFILE}
+                            -v ${env.WORKSPACE}/fcfb/configuration/config.json:/app/config/config.json \\
+                            ${IMAGE_NAME}:${env.VERSION}
                     """
                 }
             }

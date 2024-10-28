@@ -68,7 +68,7 @@ pipeline {
                             "prefix": "!"
                         },
                         "api": {
-                            "url": "${env.API_URL}"
+                            "url": "http://51.81.32.234:1213/deoxys/"
                         }
                     }
                     """.stripIndent()

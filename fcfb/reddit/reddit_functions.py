@@ -1,6 +1,7 @@
 import sys
 
 from fcfb.api.deoxys.processed_comments import get_processed_comment, add_processed_comment
+import fcfb.constants as constants
 from fcfb.discord.utils import ping_user
 
 sys.path.append("..")
@@ -157,9 +158,7 @@ async def find_plays_and_ping(client, r, config_data):
                 user_list = parse_user_from_play_comment(comment)
             else:
                 user_list = parse_multiple_users_from_play_comment(comment)
-            message = (team + " has submitted their number. Please reply to this comment with your number, "
-                       + "feel free to ignore this ping if you already have done so: "
-                       + "<https://old.reddit.com" + comment.permalink + ">")
+            message = constants.build_ping_offense_message(team=team, comment_permalink=comment.permalink)
             for user in user_list:
                 if await ping_user(client, config_data, user, message):
                     await add_processed_comment(config_data, comment.id, submission_id)
@@ -170,26 +169,19 @@ async def find_plays_and_ping(client, r, config_data):
             else:
                 user_list = parse_multiple_users_from_result_comment(comment)
             difference = parse_difference_from_result_comment(comment)
-            message = ("The previous play result is in, the difference was " + difference +
-                       ". Please respond to refbot's message with your number. You can view the result at the link "
-                       + "below, feel free to ignore this ping if you already have done so: "
-                       + "<https://old.reddit.com" + comment.permalink + ">")
+            message = constants.build_ping_defense_message(difference=difference, comment_permalink=comment.permalink)
             for user in user_list:
                 if await ping_user(client, config_data, user, message):
                     await add_processed_comment(config_data, comment.id, submission_id)
         # Handle start of game message, the coin flip
         elif "Happy Gameday!" in comment.body:
             user = parse_user_from_start_comment(comment)
-            message = ("The game has started, please respond to refbot's message with heads or tails. You can view the "
-                       + "result at the link below, feel free to ignore this ping if you already have done so: "
-                       + "<https://old.reddit.com" + comment.permalink + ">")
+            message = constants.build_ping_game_start_message()
             if await ping_user(client, config_data, user, message):
                 await add_processed_comment(config_data, comment.id, submission_id)
         # Handle coin flip result
         elif "won the toss" in comment.body:
             user = parse_user_from_coin_flip_result_comment(comment)
-            message = ("The coin flip result is in, you won the toss. Please respond to refbot's message with your "
-                        + "number. You can view the result at the link below, feel free to ignore this ping if you "
-                        + "already have done so: https://old.reddit.com" + comment.permalink)
+            message = constants.build_ping_coin_toss_winner_message()
             if await ping_user(client, config_data, user, message):
                 await add_processed_comment(config_data, comment.id, submission_id)
